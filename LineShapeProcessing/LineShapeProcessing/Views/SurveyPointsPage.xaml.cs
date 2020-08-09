@@ -9,6 +9,8 @@ using Xamarin.Forms.Xaml;
 
 using LineShapeProcessing.Models;
 using LineShapeProcessing.ViewModels;
+using System.IO;
+using System.Diagnostics;
 
 namespace LineShapeProcessing.Views
 {
@@ -35,6 +37,26 @@ namespace LineShapeProcessing.Views
         //async void AddItem_Clicked(object sender, EventArgs e)
         //{
         //    await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
+        //}
+        async void Save_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Data.txt")))
+                {
+                    File.Create(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Data.txt"));
+                }
+                File.WriteAllText("Data.txt", viewModel.Items[0].No);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        //async void RawData_Clicked(object sender, EventArgs e)
+        //{
+        //    await Navigation.PushAsync(new RawDataPage(viewModel.Items));
         //}
 
         protected override void OnAppearing()
