@@ -13,7 +13,8 @@ namespace LineShapeProcessing
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
+            //DependencyService.Register<MockDataStore>();
+            DependencyService.Register<SurveyPointDataStore>();
             MainPage = new AppShell();
         }
 
