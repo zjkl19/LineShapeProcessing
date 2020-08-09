@@ -12,6 +12,10 @@
 
   <ItemGroup>
 
+    <EmbeddedResource Update="Views\RawDataPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+
     <EmbeddedResource Update="Views\SurveyPointsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

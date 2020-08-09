@@ -54,10 +54,11 @@ namespace LineShapeProcessing.Views
             }
         }
 
-        //async void RawData_Clicked(object sender, EventArgs e)
-        //{
-        //    await Navigation.PushAsync(new RawDataPage(viewModel.Items));
-        //}
+        async void RawData_Clicked(object sender, EventArgs e)
+        {
+            //await Navigation.PushAsync(new RawDataPage());
+            await Navigation.PushAsync(new RawDataPage(viewModel.Items));
+        }
 
         protected override void OnAppearing()
         {
