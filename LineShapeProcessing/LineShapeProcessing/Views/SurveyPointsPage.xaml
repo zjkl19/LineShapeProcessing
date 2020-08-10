@@ -8,6 +8,7 @@
              Title="{Binding Title}"
              x:Name="BrowseSurveyPointsPage">
     <ContentPage.ToolbarItems>
+        <ToolbarItem Text="添加" Clicked="AddSurveyPoint_Clicked" />
         <ToolbarItem Text="保存" Clicked="Save_Clicked" />
         <ToolbarItem Text="原始数据" Clicked="RawData_Clicked" />
     </ContentPage.ToolbarItems>

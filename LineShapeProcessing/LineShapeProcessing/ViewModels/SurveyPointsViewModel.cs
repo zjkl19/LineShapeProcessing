@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using LineShapeProcessing.Models;
+using LineShapeProcessing.Views;
 
 namespace LineShapeProcessing.ViewModels
 {
@@ -26,6 +27,13 @@ namespace LineShapeProcessing.ViewModels
             //    Items.Add(newItem);
             //    await DataStore.AddItemAsync(newItem);
             //});
+
+            MessagingCenter.Subscribe<NewSurveyPotintPage, SurveyPoint>(this, "AddSurveyPoint", async (obj, item) =>
+            {
+                var newItem = item as SurveyPoint;
+                Items.Add(newItem);
+                await DataStore.AddItemAsync(newItem);
+            });
         }
 
         async Task ExecuteLoadItemsCommand()

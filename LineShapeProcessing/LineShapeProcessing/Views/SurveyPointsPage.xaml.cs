@@ -34,19 +34,26 @@ namespace LineShapeProcessing.Views
         //    await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
         //}
 
-        //async void AddItem_Clicked(object sender, EventArgs e)
-        //{
-        //    await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
-        //}
+        async void AddSurveyPoint_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new NavigationPage(new NewSurveyPotintPage()));
+        }
+
         async void Save_Clicked(object sender, EventArgs e)
         {
+            string FileName = "Data.txt";string result = string.Empty;
             try
             {
-                if (!File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Data.txt")))
+                if (!File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), FileName)))
                 {
-                    File.Create(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Data.txt"));
+                    File.Create(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), FileName));
                 }
-                File.WriteAllText("Data.txt", viewModel.Items[0].No);
+
+                for(int i=0;i<viewModel.Items.Count;i++)
+                {
+                    result = $"{result}{viewModel.Items[i].No},{viewModel.Items[i].BacksightPoint},{viewModel.Items[i].ForsightValue},{viewModel.Items[i].BacksightValue},{viewModel.Items[i].ElevationValue},{viewModel.Items[i].ElevationModValue},{viewModel.Items[i].ModElevationValue}\n";
+                }
+                File.WriteAllText(FileName, result);
             }
             catch (Exception ex)
             {
