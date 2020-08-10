@@ -34,5 +34,11 @@ namespace LineShapeProcessing.Views
             viewModel = new SurveyPointDetailViewModel(surveyPoint);
             BindingContext = viewModel;
         }
+
+        async void Delete_Clicked(object sender, EventArgs e)
+        {
+            MessagingCenter.Send(this, "DeleteSurveyPoint", viewModel.SurveyPoint);
+            await Navigation.PopAsync();
+        }
     }
 }

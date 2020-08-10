@@ -21,18 +21,18 @@ namespace LineShapeProcessing.ViewModels
             Items = new ObservableCollection<SurveyPoint>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            //MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
-            //{
-            //    var newItem = item as Item;
-            //    Items.Add(newItem);
-            //    await DataStore.AddItemAsync(newItem);
-            //});
-
             MessagingCenter.Subscribe<NewSurveyPotintPage, SurveyPoint>(this, "AddSurveyPoint", async (obj, item) =>
             {
                 var newItem = item as SurveyPoint;
                 Items.Add(newItem);
                 await DataStore.AddItemAsync(newItem);
+            });
+
+            MessagingCenter.Subscribe<SurveyPointDetailPage, SurveyPoint>(this, "DeleteSurveyPoint", async (obj, item) =>
+            {
+                var delItem = item as SurveyPoint;
+                Items.Remove(delItem);
+                await DataStore.DeleteItemAsync(delItem.No);
             });
         }
 

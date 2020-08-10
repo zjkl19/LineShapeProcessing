@@ -6,6 +6,10 @@
              mc:Ignorable="d"
              x:Class="LineShapeProcessing.Views.SurveyPointDetailPage"
              Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="删除" Clicked="Delete_Clicked" />
+    </ContentPage.ToolbarItems>
+    
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Text:" FontSize="Medium" />
