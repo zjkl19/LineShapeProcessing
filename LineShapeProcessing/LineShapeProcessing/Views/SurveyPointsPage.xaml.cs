@@ -27,12 +27,12 @@ namespace LineShapeProcessing.Views
             BindingContext = viewModel = new SurveyPointsViewModel();
         }
 
-        //async void OnItemSelected(object sender, EventArgs args)
-        //{
-        //    var layout = (BindableObject)sender;
-        //    var item = (SurveyPoint)layout.BindingContext;
-        //    await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
-        //}
+        async void OnItemSelected(object sender, EventArgs args)
+        {
+            var layout = (BindableObject)sender;
+            var item = (SurveyPoint)layout.BindingContext;
+            await Navigation.PushAsync(new SurveyPointDetailPage(new SurveyPointDetailViewModel(item)));
+        }
 
         async void AddSurveyPoint_Clicked(object sender, EventArgs e)
         {
