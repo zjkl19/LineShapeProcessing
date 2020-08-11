@@ -11,6 +11,7 @@ using LineShapeProcessing.Models;
 using LineShapeProcessing.ViewModels;
 using System.IO;
 using System.Diagnostics;
+using OfficeOpenXml;
 
 namespace LineShapeProcessing.Views
 {
@@ -41,19 +42,50 @@ namespace LineShapeProcessing.Views
 
         async void Save_Clicked(object sender, EventArgs e)
         {
-            string FileName = "Data.txt";string result = string.Empty;
+            string FileName = @"Data.xlsx"; string result = string.Empty;
             try
             {
-                if (!File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), FileName)))
+                string strFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), FileName);
+                var k = File.Exists(strFilePath);
+                string sheetName = "Sheet1";
+
+                //如果不存在则创建
+                if (!File.Exists(strFilePath))
                 {
-                    File.Create(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), FileName));
+                    using (var p = new ExcelPackage())
+                    {
+                        var ws = p.Workbook.Worksheets.Add(sheetName);
+                        //ws.Cells[2, 1].Value = "This is cell A2.
+                        p.SaveAs(new FileInfo(strFilePath));
+                        ws.Cells[1, 1].Value = "测点"; ws.Cells[1, 2].Value = "后视点"; ws.Cells[1, 3].Value = "前视读数（m）";
+                        ws.Cells[1, 4].Value = "后视读数（m）"; ws.Cells[1, 5].Value = "高程（m）"; ws.Cells[1, 6].Value = "高差改正数（m）"; ws.Cells[1, 7].Value = "改正后高程（m）";
+                    }
+                }
+                else
+                {
+                    var fi = new FileInfo(strFilePath);
+                    int currRow = 2;
+                    using (var p = new ExcelPackage(fi))
+                    {
+                        var ws = p.Workbook.Worksheets[sheetName];
+
+                        for (int i = 0; i < viewModel.Items.Count; i++)
+                        {
+                            ws.Cells[currRow, 1].Value = viewModel.Items[i].No;
+                            ws.Cells[currRow, 2].Value = viewModel.Items[i].BacksightPoint;
+                            ws.Cells[currRow, 3].Value = viewModel.Items[i].ForsightValue;
+                            ws.Cells[currRow, 4].Value = viewModel.Items[i].BacksightValue;
+                            ws.Cells[currRow, 5].Value = viewModel.Items[i].ElevationValue;
+                            ws.Cells[currRow, 6].Value = viewModel.Items[i].ElevationModValue;
+                            ws.Cells[currRow, 7].Value = viewModel.Items[i].ModElevationValue;
+                            currRow++;
+                        }
+
+                        p.Save();
+                    }
                 }
 
-                for(int i=0;i<viewModel.Items.Count;i++)
-                {
-                    result = $"{result}{viewModel.Items[i].No},{viewModel.Items[i].BacksightPoint},{viewModel.Items[i].ForsightValue},{viewModel.Items[i].BacksightValue},{viewModel.Items[i].ElevationValue},{viewModel.Items[i].ElevationModValue},{viewModel.Items[i].ModElevationValue}\n";
-                }
-                File.WriteAllText(FileName, result);
+
             }
             catch (Exception ex)
             {
