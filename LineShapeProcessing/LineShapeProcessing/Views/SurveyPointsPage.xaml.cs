@@ -61,30 +61,27 @@ namespace LineShapeProcessing.Views
                         ws.Cells[1, 4].Value = "后视读数（m）"; ws.Cells[1, 5].Value = "高程（m）"; ws.Cells[1, 6].Value = "高差改正数（m）"; ws.Cells[1, 7].Value = "改正后高程（m）";
                     }
                 }
-                else
+
+                var fi = new FileInfo(strFilePath);
+                int currRow = 2;
+                using (var p = new ExcelPackage(fi))
                 {
-                    var fi = new FileInfo(strFilePath);
-                    int currRow = 2;
-                    using (var p = new ExcelPackage(fi))
+                    var ws = p.Workbook.Worksheets[sheetName];
+
+                    for (int i = 0; i < viewModel.Items.Count; i++)
                     {
-                        var ws = p.Workbook.Worksheets[sheetName];
-
-                        for (int i = 0; i < viewModel.Items.Count; i++)
-                        {
-                            ws.Cells[currRow, 1].Value = viewModel.Items[i].No;
-                            ws.Cells[currRow, 2].Value = viewModel.Items[i].BacksightPoint;
-                            ws.Cells[currRow, 3].Value = viewModel.Items[i].ForsightValue;
-                            ws.Cells[currRow, 4].Value = viewModel.Items[i].BacksightValue;
-                            ws.Cells[currRow, 5].Value = viewModel.Items[i].ElevationValue;
-                            ws.Cells[currRow, 6].Value = viewModel.Items[i].ElevationModValue;
-                            ws.Cells[currRow, 7].Value = viewModel.Items[i].ModElevationValue;
-                            currRow++;
-                        }
-
-                        p.Save();
+                        ws.Cells[currRow, 1].Value = viewModel.Items[i].No;
+                        ws.Cells[currRow, 2].Value = viewModel.Items[i].BacksightPoint;
+                        ws.Cells[currRow, 3].Value = viewModel.Items[i].ForsightValue;
+                        ws.Cells[currRow, 4].Value = viewModel.Items[i].BacksightValue;
+                        ws.Cells[currRow, 5].Value = viewModel.Items[i].ElevationValue;
+                        ws.Cells[currRow, 6].Value = viewModel.Items[i].ElevationModValue;
+                        ws.Cells[currRow, 7].Value = viewModel.Items[i].ModElevationValue;
+                        currRow++;
                     }
-                }
 
+                    p.Save();
+                }
 
             }
             catch (Exception ex)

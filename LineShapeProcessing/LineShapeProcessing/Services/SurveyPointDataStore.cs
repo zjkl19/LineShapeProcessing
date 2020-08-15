@@ -19,17 +19,12 @@ namespace LineShapeProcessing.Services
 
             try
             {
-                //if (!File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), FileName)))
-                //{
-                //    File.Create(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), FileName));
-                //}
 
                 string strFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), FileName);
                 var k = File.Exists(strFilePath);
                 string sheetName = "Sheet1";
 
-
-                //如果不存在则创建
+                //如果不存在则创建（数据为空）
                 if (!File.Exists(strFilePath))
                 {
                     using (var p = new ExcelPackage())
@@ -41,6 +36,7 @@ namespace LineShapeProcessing.Services
                         ws.Cells[1, 4].Value = "后视读数（m）"; ws.Cells[1, 5].Value = "高程（m）"; ws.Cells[1, 6].Value = "高差改正数（m）"; ws.Cells[1, 7].Value = "改正后高程（m）";
                     }
                 }
+                //存在则逐行读取数据
                 else
                 {
                     var fi = new FileInfo(strFilePath);
@@ -49,11 +45,18 @@ namespace LineShapeProcessing.Services
                     using (var p = new ExcelPackage(fi))
                     {
                         var ws = p.Workbook.Worksheets[sheetName];
-                        while(!string.IsNullOrWhiteSpace(ws.Cells[currRow, 1].Value.ToString()))
+                        while (!string.IsNullOrWhiteSpace(ws.Cells[currRow, 1].Value.ToString()))
                         {
-                            points.Add(new SurveyPoint {
-                                No= ws.Cells[currRow, 1].Value.ToString(),
-                                BacksightPoint= ws.Cells[currRow, 2].Value.ToString(),
+                            points.Add(new SurveyPoint
+                            {
+                                SequenceNumber = currRow - 1,
+                                No = ws.Cells[currRow, 1].Value.ToString(),
+                                BacksightPoint = ws.Cells[currRow, 2].Value.ToString(),
+                                ForsightValue = Convert.ToDecimal(ws.Cells[currRow, 3].Value?.ToString() ?? "0.0"),
+                                BacksightValue = Convert.ToDecimal(ws.Cells[currRow, 4].Value?.ToString() ?? "0.0"),
+                                ElevationValue = Convert.ToDecimal(ws.Cells[currRow, 5].Value?.ToString() ?? "0.0"),
+                                ElevationModValue = Convert.ToDecimal(ws.Cells[currRow, 6].Value?.ToString() ?? "0.0"),
+                                ModElevationValue = Convert.ToDecimal(ws.Cells[currRow, 7].Value?.ToString() ?? "0.0"),
                             });
                             currRow++;
                         }
@@ -68,6 +71,7 @@ namespace LineShapeProcessing.Services
                 Debug.WriteLine(ex.Message);
             }
 
+            //测试数据
             //points = new List<SurveyPoint>()
             //{
             //    new SurveyPoint { SequenceNumber = 1, No = "zk-18#大", BacksightPoint="/"
