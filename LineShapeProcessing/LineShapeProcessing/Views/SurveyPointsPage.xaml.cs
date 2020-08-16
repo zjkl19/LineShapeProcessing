@@ -56,9 +56,10 @@ namespace LineShapeProcessing.Views
                     {
                         var ws = p.Workbook.Worksheets.Add(sheetName);
                         //ws.Cells[2, 1].Value = "This is cell A2.
-                        p.SaveAs(new FileInfo(strFilePath));
+                        
                         ws.Cells[1, 1].Value = "测点"; ws.Cells[1, 2].Value = "后视点"; ws.Cells[1, 3].Value = "前视读数（m）";
                         ws.Cells[1, 4].Value = "后视读数（m）"; ws.Cells[1, 5].Value = "高程（m）"; ws.Cells[1, 6].Value = "高差改正数（m）"; ws.Cells[1, 7].Value = "改正后高程（m）";
+                        p.SaveAs(new FileInfo(strFilePath));
                     }
                 }
 
@@ -82,6 +83,21 @@ namespace LineShapeProcessing.Views
 
                     p.Save();
                 }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        async void DataClear_Clicked(object sender, EventArgs e)
+        {
+            string FileName = @"Data.xlsx"; string result = string.Empty;
+            try
+            {
+                string strFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), FileName);
+                File.Delete(strFilePath);
 
             }
             catch (Exception ex)

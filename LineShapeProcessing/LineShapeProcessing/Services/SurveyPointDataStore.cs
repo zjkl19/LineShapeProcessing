@@ -12,10 +12,12 @@ namespace LineShapeProcessing.Services
     public class SurveyPointDataStore : IDataStore<SurveyPoint>
     {
         readonly List<SurveyPoint> points;
-
+        
         public SurveyPointDataStore()
         {
             string FileName = @"Data.xlsx"; string result = string.Empty;
+
+            var dicPoints = new Dictionary<string, decimal>();    //以字典形式存储的测点值（测点，高程值）
 
             try
             {
@@ -54,10 +56,21 @@ namespace LineShapeProcessing.Services
                                 BacksightPoint = ws.Cells[currRow, 2].Value.ToString(),
                                 ForsightValue = Convert.ToDecimal(ws.Cells[currRow, 3].Value?.ToString() ?? "0.0"),
                                 BacksightValue = Convert.ToDecimal(ws.Cells[currRow, 4].Value?.ToString() ?? "0.0"),
-                                ElevationValue = Convert.ToDecimal(ws.Cells[currRow, 5].Value?.ToString() ?? "0.0"),
+                                //ElevationValue = Convert.ToDecimal(ws.Cells[currRow, 5].Value?.ToString() ?? "0.0"),
                                 ElevationModValue = Convert.ToDecimal(ws.Cells[currRow, 6].Value?.ToString() ?? "0.0"),
                                 ModElevationValue = Convert.ToDecimal(ws.Cells[currRow, 7].Value?.ToString() ?? "0.0"),
                             });
+
+                            if(currRow==2)
+                            {
+                                dicPoints.Add(points[currRow - 2].No, points[currRow - 2].ElevationValue);
+                            }
+                            else
+                            {
+                                dicPoints.Add(points[currRow - 2].No, dicPoints[points[currRow - 2].BacksightPoint]+ points[currRow - 2].BacksightValue- points[currRow - 2].ForsightValue);    //高程=基点高程+后视-前视
+                            }
+
+                            points[currRow - 2].ElevationModValue = dicPoints[points[currRow - 2].No];
                             currRow++;
                         }
                         p.Save();

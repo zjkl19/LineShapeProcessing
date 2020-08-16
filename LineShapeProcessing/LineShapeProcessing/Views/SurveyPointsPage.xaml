@@ -11,6 +11,7 @@
         <ToolbarItem Text="添加" Clicked="AddSurveyPoint_Clicked" />
         <ToolbarItem Text="保存" Clicked="Save_Clicked" />
         <ToolbarItem Text="原始数据" Clicked="RawData_Clicked" />
+        <ToolbarItem Text="清空数据" Clicked="DataClear_Clicked" />
     </ContentPage.ToolbarItems>
 
     <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">

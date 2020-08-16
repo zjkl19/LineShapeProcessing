@@ -15,10 +15,16 @@
     <ContentPage.Content>
         <StackLayout>
             <StackLayout Spacing="20" Padding="15">
-                <Label Text="Text" FontSize="Medium" />
+                <Label Text="测点编号" FontSize="Medium" />
                 <Entry Text="{Binding SurveyPoint.No}" d:Text="测点编号" FontSize="Small" />
-                <Label Text="Description" FontSize="Medium" />
+                <Label Text="后视点" FontSize="Medium" />
                 <Editor Text="{Binding SurveyPoint.BacksightPoint}" d:Text="后视点" FontSize="Small" Margin="0" />
+                <Label Text="前视读数（m）" FontSize="Medium" />
+                <Editor Text="{Binding SurveyPoint.ForsightValue}" d:Text="前视读数" FontSize="Small" Margin="0" />
+                <Label Text="后视读数（m）" FontSize="Medium" />
+                <Editor Text="{Binding SurveyPoint.BacksightValue}" d:Text="后视读数" FontSize="Small" Margin="0" />
+                <Label Text="高程（m）" FontSize="Medium" />
+                <Editor Text="{Binding SurveyPoint.ElevationValue}" d:Text="高程" FontSize="Small" Margin="0" />
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
