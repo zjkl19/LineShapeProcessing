@@ -23,9 +23,8 @@ namespace LineShapeProcessing.Services
             {
 
                 string strFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), FileName);
-                var k = File.Exists(strFilePath);
                 string sheetName = "Sheet1";
-
+                points = new List<SurveyPoint>();
                 //如果不存在则创建（数据为空）
                 if (!File.Exists(strFilePath))
                 {
@@ -42,7 +41,7 @@ namespace LineShapeProcessing.Services
                 else
                 {
                     var fi = new FileInfo(strFilePath);
-                    points = new List<SurveyPoint>();
+                    
                     int currRow = 2;
                     using (var p = new ExcelPackage(fi))
                     {

@@ -46,7 +46,7 @@ namespace LineShapeProcessing.Views
             try
             {
                 string strFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), FileName);
-                var k = File.Exists(strFilePath);
+                
                 string sheetName = "Sheet1";
 
                 //如果不存在则创建
