@@ -7,15 +7,22 @@
              x:Class="LineShapeProcessing.Views.SurveyPointDetailPage"
              Title="{Binding Title}">
     <ContentPage.ToolbarItems>
+        <ToolbarItem Text="更新" Clicked="Update_Clicked" />
         <ToolbarItem Text="删除" Clicked="Delete_Clicked" />
     </ContentPage.ToolbarItems>
-    
+
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Text:" FontSize="Medium" />
-            <Label Text="{Binding SurveyPoint.No}" d:Text="SurveyPoint No" FontSize="Small"/>
-            <Label Text="Description:" FontSize="Medium" />
-            <Label Text="{Binding SurveyPoint.BacksightPoint}" d:Text="SurveyPoint BacksightPoint" FontSize="Small"/>
+            <Label Text="测点编号" FontSize="Medium" />
+            <Entry Text="{Binding SurveyPoint.No}" d:Text="测点编号" FontSize="Small"/>
+            <Label Text="后视点" FontSize="Medium" />
+            <Entry Text="{Binding SurveyPoint.BacksightPoint}" d:Text="后视点" FontSize="Small"/>
+            <Label Text="前视读数（m）" FontSize="Medium" />
+            <Editor Text="{Binding SurveyPoint.ForsightValue}" d:Text="前视读数" FontSize="Small" Margin="0" />
+            <Label Text="后视读数（m）" FontSize="Medium" />
+            <Editor Text="{Binding SurveyPoint.BacksightValue}" d:Text="后视读数" FontSize="Small" Margin="0" />
+            <Label Text="高程（m）" FontSize="Medium" />
+            <Editor Text="{Binding SurveyPoint.ElevationValue}" d:Text="高程" FontSize="Small" Margin="0" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

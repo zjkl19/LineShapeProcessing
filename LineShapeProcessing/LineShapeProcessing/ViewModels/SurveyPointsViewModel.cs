@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using LineShapeProcessing.Models;
 using LineShapeProcessing.Views;
+using System.Linq;
 
 namespace LineShapeProcessing.ViewModels
 {
@@ -27,6 +28,18 @@ namespace LineShapeProcessing.ViewModels
                 Items.Add(newItem);
                 await DataStore.AddItemAsync(newItem);
             });
+
+            MessagingCenter.Subscribe<SurveyPointDetailPage, SurveyPoint>(this, "UpdateSurveyPoint", async (obj, item) =>
+            {
+                var updateItem = item as SurveyPoint;
+
+                var oldItem = Items.Where((SurveyPoint arg) => arg.No == updateItem.No).FirstOrDefault();
+                Items.Remove(oldItem);
+                Items.Add(updateItem);
+
+                await DataStore.UpdateItemAsync(updateItem);
+            });
+
 
             MessagingCenter.Subscribe<SurveyPointDetailPage, SurveyPoint>(this, "DeleteSurveyPoint", async (obj, item) =>
             {
